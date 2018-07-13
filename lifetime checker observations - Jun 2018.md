@@ -1,7 +1,7 @@
 
 ### Kicking the tires of the CoreGuidelines lifetime checker - Jun 2018
 
-This was just simply an exercise in coding up a number of simple use-after-free bugs and seeing if the msvc CoreGuidelines lifetime checker will catch them. Here we're using Visual Studio version 15.7.4 (up-to-date as of Jun 2018). Spoiler: It did catch most of them. 
+This was just simply an exercise in coding up a number of simple use-after-free bugs and seeing if the msvc CoreGuidelines lifetime checker will catch them. Here we're using Visual Studio version 15.7.4 (up-to-date as of Jun 2018). Spoiler: It did catch "most" of them. 
 
 ### Not caught
 
