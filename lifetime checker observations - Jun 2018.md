@@ -128,7 +128,7 @@ Here, as with the [second example](#snippet-m2), the violation is not caught whe
 	}
 ```
 
-This one has to do with the intricacies of "lifetime extention of temporaries" by the compiler.
+This one has to do with the intricacies of "lifetime extension of temporaries" by the compiler.
 
 And here's one more:
 
