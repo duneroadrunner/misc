@@ -1,7 +1,7 @@
 
 ### Kicking the tires of the CoreGuidelines lifetime checker - Jun 2018
 
-This was just simply an exercise in coding up a number of simple use-after-free bugs and seeing if the msvc CoreGuidelines lifetime checker will catch them. Here we're using Visual Studio version 15.7.4 (up-to-date as of Jun 2018). Spoiler: It did catch "most" of them. 
+This was just simply an exercise in coding up a number of simple use-after-free bugs and seeing if the msvc CoreGuidelines lifetime checker will catch them. Here we're using Visual Studio version 15.7.4 (up-to-date as of Jun 2018). Spoiler: It did catch "most" of them, but there were also quite a few it didn't catch.
 
 ### Not caught
 
@@ -130,7 +130,7 @@ Here, as with the [second example](#snippet-m2), the violation is not caught whe
 
 This one has to do with the intricacies of "lifetime extension of temporaries" by the compiler.
 
-And here's one more:
+And here are a couple more:
 
 ###### snippet m7
 ```cpp
@@ -144,6 +144,16 @@ And here's one more:
 		auto str_shptr = std::make_shared<std::string>("hello");
 		auto str_ptr = CH::foo3(*str_shptr);
 		str_shptr = nullptr;
+		std::cout << *str_ptr << std::endl; // not caught
+	}
+```
+
+###### snippet m8
+```cpp
+	{
+		auto str_vector_vector = std::vector<std::vector<std::string> >{ std::vector<std::string>{"hello" } };
+		auto str_ptr = &(str_vector_vector.at(0).at(0));
+		str_vector_vector.clear();
 		std::cout << *str_ptr << std::endl; // not caught
 	}
 ```
@@ -250,7 +260,7 @@ But there were also some notable false positives:
 	}
 ```
 
-And one other thing to mention that we observed, but did not thoroughly investigate, is the phenomenon of the checkers simply failing to flag some non-compliant code in large source files (with a lot of other non-compliant code), while reliably flagging the same non-compliant code in smaller source files. We do not rule out the possibility that this is intended behavior.
+And one other thing to mention that we observed, but did not thoroughly investigate, is the phenomenon of the lifetime checker simply failing to flag some non-compliant code in large source files (with a lot of other non-compliant code), while reliably flagging the same non-compliant code in smaller source files. We do not rule out the possibility that this is intended behavior.
 
 So this version of the checker does not yet fully do the job, but it seems to be a lot of the way there.
 
