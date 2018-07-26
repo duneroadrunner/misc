@@ -1,3 +1,6 @@
+Jul 2018
+
+### Implications of the Core Guidelines lifetime checker restrictions
 
 When completed, the Core Guidelines lifetime checker will be able to ensure that C++ code has no use-after-free bugs by identifying/prohibiting any code that it cannot verify to be safe (with respect to use-after-free bugs). (From now on, we'll use the term "safe" to mean safe with respect to use-after-free bugs.) There will be lots of code that is actually safe, but that the lifetime checker won't be able to recognize as such. In broad terms, as a static analyzer, the lifetime checker should be able recognize as safe any code that is "structurally" safe. That is, code whose safety is solely a result of the placement of the pointer/reference elements and their target objects within (the structure of) the code.
 
