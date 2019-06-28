@@ -1,4 +1,4 @@
-Jul 2018
+Jun 2019
 
 ### Implications of the Core Guidelines lifetime checker restrictions
 
@@ -145,7 +145,7 @@ Another example is the case when you have a dynamic container, like a list or wh
 	}
 ```
 
-In this example, the eventual completed lifetime checker will presumably not permit those last two `push_back()`s. One solution would be to use `weak_ptr`s in place of raw pointers and have all the strings owned by `shared_ptr`s. That would work, but it's kind of intrusive and expensive. Another solution might be to declare some "spare" strings before the declaration of the list container that could be used for temporarily inserted elements. But that kind of breaks code locality. I mean if the temporary insertion instead occurred inside a function, then you'd have to pass (by reference) not only the list container, but also the spare strings? You could declare the local strings to have static storage duration, but then each such declaration incurs a memory cost for the entire duration of the program. And in the general case, instead of a string it could be a type that requires an initialization parameter that is not available at static initialization time. 
+In this example, the eventual completed lifetime checker will presumably not permit those last two `push_back()`s. Again, one solution would be to temporarily move the list of references into the local scope before inserting the reference to the local variable and then move it back after the reference has been removed. That would be fairly inexpensive as moving a list is pretty cheap, but again, you could imagine using other container types that aren't so cheap to move. Another solution would be to use `weak_ptr`s in place of raw pointers and have all the strings owned by `shared_ptr`s. That would work, but it's kind of intrusive and expensive. 
 
 Certainly neither of these cases are deal-breakers that would rule out strict adherence to the lifetime checker. The point is more that problematic cases like these could be addressed more cleanly and efficiently if the lifetime checker were augmented by a more comprehensive set of (familiar) logically safe elements. And that perhaps this fact is being overlooked due to a strong preference for "zero-overhead" elements over those that may incur some run-time overhead. These examples perhaps demonstrate that in some cases, impoverishing the set of available logically safe elements as a means of encouraging the use of "zero-overhead" elements can be a false economy. 
 
