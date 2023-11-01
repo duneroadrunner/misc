@@ -7,7 +7,7 @@ Some have suggested that Rust's efficient memory safety depends on its "exclusiv
 
 But even this select subset is actually more than what's strictly necessary for (efficient) memory safety. So the memory-safe subset of C++ alluded to enforces an even more select "exclusion of mutation" (along with "scope lifetime" restrictions similar to Rust's), in order to better accommodate pre-existing C++ code. Namely the exclusivity between references to the contents of a "dynamic" container (or the target of a "dynamic" owning pointer) and the ability to modify the "structure"/location/existence of the contents. 
 
-The following is an example of an unsafe reference to an element of a (legacy) standard C++ vector and a (safe) reference to an element of a vector our memory-safe subset of C++:
+The following is an example of an unsafe reference to an element of a (legacy) standard C++ vector and a (safe) reference to an element of a vector in our memory-safe subset of C++:
 
 ```cpp
     #include <iostream>
