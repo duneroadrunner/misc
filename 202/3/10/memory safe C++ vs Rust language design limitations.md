@@ -1,3 +1,7 @@
+Oct 2023
+
+## Memory safe C++ vs Rust language design limitations
+
 
 This is not about language syntax or ecosystem. This is about the functionality and performance limitations inherent to the language design.
 
