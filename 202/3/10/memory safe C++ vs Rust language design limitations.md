@@ -56,7 +56,7 @@ The following is an example of an unsafe reference to an element of a (legacy) s
 
 In this example we see that the memory-safe version incurs some theoretical extra overhead by instantiating a "borrowing fixed vector". Some theoretical overhead would also be incurred on any operation that could resize or relocate the contents of the vector. Safe Rust does not incur such overhead. But instead, Rust incurs theoretical overhead when assigning the value of one element in a container (like a vector) to another element of the same container, by effectively either requiring the instantiation of slices or an intermediate copy. The Rust overhead being more likely to occur in performance-critical inner loops than the memory-safe C++ overhead.
 
-Of course, in many or most cases, modern compiler optimizers can eliminate the overhead in both cases.
+Of course, in many or most cases, modern compiler optimizers can eliminate the overhead in both languages.
 
 Some may argue that's Rust's "exclusivity of mutable references" policy is more intuitively elegant. Maybe, but it isn't any more valid or effective at enforcing memory safety. Rust's "exclusivity of mutable references" policy has benefits apart from memory-safety (i.e. reliability and the prevention of (low-level) aliasing mistakes). But those benefits are a trade-off with flexibility. (For example, Rust's restrictions on cyclic references.) My take is that the Rust language design is fairly optimal given the trade-offs it adopted. But I don't see those trade-offs being obviously preferable overall to others that could be chosen. And in particular, the ones chosen for our memory-safe subset of C++.
 
