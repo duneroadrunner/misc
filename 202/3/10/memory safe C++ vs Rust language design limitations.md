@@ -1,4 +1,4 @@
-Dec 2023 (updated May 2024)
+Dec 2023 (updated June 2024)
 
 ## Memory safe C++ vs Rust language design limitations
 
@@ -6,6 +6,11 @@ Dec 2023 (updated May 2024)
 This is not about language syntax or ecosystem. This is about the functionality and performance limitations inherent to the language design.
 
 First, at the time of writing it may still need to be clarified that an enforced memory-safe subset of C++ roughly analogous to Rust's does indeed exist, and that there is essentially an [existence proof](https://github.com/duneroadrunner/scpptool) of it.
+
+*TLDR:
+There seems to be a common misconception that Safe Rust's universal "exclusivity of mutable references" restriction is required for efficient memory safety. It is not. In fact it has relatively minor (positive) effects on code correctness, (negative effects on) performance, and (negative effects on) ergonomics.
+A bigger issue is Rust's lack of move constructors. It is significantly crippling. For example, it hinders implementation of self/mutable/cyclic references in safe Rust.
+Also, Safe Rust supports comparison (and copying) of (potentially) dangling pointers. That's a little disconcerning.*
 
 Some have suggested that Rust's efficient memory safety depends on its "exclusivity of mutable references" policy, and could not be achieved without it. But this is not really the case. Consider that, for example, `RefCell`s allow you to in some ways evade the "exclusivity of mutable references" restrictions without compromising Rust's memory safety. In fact, for memory safety, Rust relies on only a select subset of those restrictions (along with the "borrowing"/"scope lifetime" restrictions). Namely, Rust's memory safety relies on the exclusivity between associated "borrowing" and mutable "lending" references (of which `Cell`s and `RefCell`s are not exempt).
 
