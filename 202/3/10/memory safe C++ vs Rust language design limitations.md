@@ -10,7 +10,7 @@ First, at the time of writing it may still need to be clarified that an enforced
 *TLDR:
 There seems to be a common misconception that Safe Rust's universal "exclusivity of mutable references" restriction is required for efficient memory safety. It is not. In fact it has relatively minor (positive) effects on code correctness, (negative effects on) performance, and (negative effects on) ergonomics.
 A bigger issue is Rust's lack of move constructors. It is significantly crippling. For example, it hinders implementation of self/mutable/cyclic references in safe Rust.
-Also, Safe Rust supports comparison (and copying) of (potentially) dangling pointers. That's a little disconcerning.*
+Also, Safe Rust supports comparison (and copying) of (potentially) dangling pointers. That's a little disconcerting.*
 
 Some have suggested that Rust's efficient memory safety depends on its "exclusivity of mutable references" policy, and could not be achieved without it. But this is not really the case. Consider that, for example, `RefCell`s allow you to in some ways evade the "exclusivity of mutable references" restrictions without compromising Rust's memory safety. In fact, for memory safety, Rust relies on only a select subset of those restrictions (along with the "borrowing"/"scope lifetime" restrictions). Namely, Rust's memory safety relies on the exclusivity between associated "borrowing" and mutable "lending" references (of which `Cell`s and `RefCell`s are not exempt).
 
@@ -61,7 +61,7 @@ The following is an example of an unsafe reference to an element of a (legacy) s
     }
 ```
 
-In this example we see that the memory-safe version incurs some theoretical extra overhead by instantiating a "borrowing fixed vector". Some theoretical overhead would also be incurred on any operation that could resize or relocate the contents of the vector. Safe Rust does not incur such overhead. But instead, Rust incurs theoretical overhead, for example, when you need to hold multiple (including `mut`) references to different elements of a container. For example, assigning the value of one element in a container (like a vector) to another element of the same container, effectively requires the instantiation of slices or an intermediate copy. The Rust overhead being more likely to occur in performance-critical inner loops than the memory-safe C++ overhead.
+In this example we see that the memory-safe version incurs some theoretical extra overhead by instantiating a "borrowing fixed vector". Some theoretical overhead would also be incurred on any operation that could resize or relocate the contents of the vector. Safe Rust does not incur such overhead. But instead, Rust incurs theoretical overhead, for example, when you need to hold multiple (including `mut`) references to different elements of a container. For example, assigning the value of one element in a container (like a vector) to another element of the same container, effectively requires the instantiation of slices (or wrapping the elements in `RefCell<>`s) or an intermediate copy. The Rust overhead being more likely to occur in performance-critical inner loops than the memory-safe C++ overhead.
 
 (Though one might imagine the calculus changing if we ever get hardware with an accelerated copy instruction that is only reliable when the source and destination don't alias/overlap.) Of course, in many or most cases, modern compiler optimizers can eliminate the overhead in both languages.
 
